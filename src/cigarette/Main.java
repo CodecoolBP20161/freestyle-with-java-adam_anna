@@ -1,5 +1,5 @@
 package cigarette;
-
+import javafx.collections.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +14,11 @@ import javafx.stage.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.chart.*;
 import java.lang.*;
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 import javafx.scene.Node;
 
 /**
@@ -69,7 +74,22 @@ public class Main extends Application{
 
     }
 
-    private HBox addHBox2() {
+    private HBox addHBox2() throws SQLException {
+        Connection c = null;
+        Statement stmt = null;
+        ObservableList data = FXCollections.observableArrayList();
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/annakertesz", "postgres", "bmpa88");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Opened database successfully");
         HBox hbox = new HBox();
         hbox.setStyle("-fx-background-color: #fff2f0;");
 
@@ -77,13 +97,24 @@ public class Main extends Application{
         final NumberAxis yAxis = new NumberAxis();
         final LineChart<String, Number> lineChart = new LineChart<String, Number>(xAxis, yAxis);
 
+        PieChart pieChart = new PieChart();
+
         XYChart.Series series1 = new XYChart.Series();
         series1.setName("Portfolio 1");
-        series1.getData().add(new XYChart.Data("11:52:19", 23));
-        series1.getData().add(new XYChart.Data("12:42:19", 1));
-        series1.getData().add(new XYChart.Data("21:32:19", 50));
+
+
+        String SQL = "SELECT * FROM DIARY";
+        ResultSet rs = c.createStatement().executeQuery(SQL);
+        while(rs.next()) {
+
+            series1.getData().add(new XYChart.Data(rs.getString(1), rs.getDouble(2)));
+        }
+//        series1.getData().add(new XYChart.Data("11:52:19", 23));
+//        series1.getData().add(new XYChart.Data("12:42:19", 1));
+//        series1.getData().add(new XYChart.Data("21:32:19", 50));
         lineChart.setPrefSize(980,500);
         lineChart.getData().addAll(series1);
+
         hbox.getChildren().addAll(lineChart);
 
 
