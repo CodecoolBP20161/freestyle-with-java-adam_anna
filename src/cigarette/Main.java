@@ -14,6 +14,7 @@ import javafx.stage.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.chart.*;
 import java.lang.*;
+import javafx.scene.Node;
 
 /**
  * Created by annakertesz on 10/24/16.
@@ -35,9 +36,10 @@ public class Main extends Application{
         BorderPane layout = new BorderPane();
         StackPane layout2 = new StackPane();
         HBox hbox = addHBox();
-        Node appContent = new AppContentNode();
+        HBox hbox2 = addHBox2();
 
         layout.setBottom(hbox);
+        layout.setBottom(hbox2);
 
         Scene scene = new Scene(layout, 600, 600);
         window.setScene(scene);

@@ -6,22 +6,22 @@ import java.sql.Statement;
 import java.util.Date;
 
 
-public class insertData {
+public class InsertData {
 
     InputHandler myinput = new InputHandler();
     String sqlLine;
-    int[] values = myinput.inputData();
+    //int[] values = myinput.inputData();
 
     Date dt = new Date();
     java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String timeStamp = sdf.format(dt);
 
-    public insertData() {
+    public InsertData(double[] values) {
         sqlLine = "INSERT INTO DIARY VALUES (' " + timeStamp + "', " + values[0] +", " + values[1] + ")";
     }
 
-    public static void main(String args[]) {
-        insertData dataLine = new insertData();
+    public void insert() {
+        //InsertData dataLine = new InsertData();
         Connection c = null;
         Statement stmt = null;
         try {
@@ -33,7 +33,7 @@ public class insertData {
             System.out.println("Opened database successfully");
 
             stmt = c.createStatement();
-            String sql = dataLine.sqlLine;
+            String sql = this.sqlLine;
             stmt.executeUpdate(sql);
 
             stmt.close();

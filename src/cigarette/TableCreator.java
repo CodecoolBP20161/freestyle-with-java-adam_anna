@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 
-public class tableCreator {
+public class TableCreator {
     public static void main( String args[] )
     {
         Connection c = null;
