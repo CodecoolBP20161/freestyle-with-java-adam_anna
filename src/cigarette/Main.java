@@ -34,14 +34,13 @@ public class Main extends Application{
         window = primaryStage;
         window.setTitle("Cigarette diary");
         BorderPane layout = new BorderPane();
-        StackPane layout2 = new StackPane();
         HBox hbox = addHBox();
         HBox hbox2 = addHBox2();
 
         layout.setBottom(hbox);
-        layout.setBottom(hbox2);
+        layout.setCenter(hbox2);
 
-        Scene scene = new Scene(layout, 600, 600);
+        Scene scene = new Scene(layout, 1000, 600);
         window.setScene(scene);
         window.show();
     }
@@ -54,11 +53,11 @@ public class Main extends Application{
             hbox.setStyle("-fx-background-color: #99908f;");
 
             Button buttonFeeling = new Button("How are you feeling?");
-            buttonFeeling.setPrefSize(250, 40);
+            buttonFeeling.setPrefSize(450, 40);
             buttonFeeling.setOnAction(event -> InputWindow.display());
 
             Button buttonChart = new Button("Make your data alive");
-            buttonChart.setPrefSize(250, 40);
+            buttonChart.setPrefSize(450, 40);
 //            buttonFeeling.setOnAction(event -> {ChartCreator chartcreator = new ChartCreator();});
 
             Button buttonSmoke= new Button("I smoked");
@@ -67,6 +66,28 @@ public class Main extends Application{
             hbox.getChildren().addAll(buttonFeeling, buttonSmoke, buttonChart);
 
             return hbox;
+
+    }
+
+    private HBox addHBox2() {
+        HBox hbox = new HBox();
+        hbox.setStyle("-fx-background-color: #fff2f0;");
+
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        final LineChart<String, Number> lineChart = new LineChart<String, Number>(xAxis, yAxis);
+
+        XYChart.Series series1 = new XYChart.Series();
+        series1.setName("Portfolio 1");
+        series1.getData().add(new XYChart.Data("11:52:19", 23));
+        series1.getData().add(new XYChart.Data("12:42:19", 1));
+        series1.getData().add(new XYChart.Data("21:32:19", 50));
+        lineChart.setPrefSize(980,500);
+        lineChart.getData().addAll(series1);
+        hbox.getChildren().addAll(lineChart);
+
+
+        return hbox;
 
     }
 
