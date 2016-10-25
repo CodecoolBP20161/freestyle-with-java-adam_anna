@@ -8,17 +8,20 @@ import java.util.Date;
 
 public class InsertData {
 
-    InputHandler myinput = new InputHandler();
+
     String sqlLine;
-    //int[] values = myinput.inputData();
 
     Date dt = new Date();
     java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String timeStamp = sdf.format(dt);
 
     public InsertData(double[] values) {
-        sqlLine = "INSERT INTO DIARY VALUES (' " + timeStamp + "', " + values[0] +", " + values[1] + ")";
-    }
+        if (values.length == 2) {
+        sqlLine = "INSERT INTO DIARY VALUES (' " + timeStamp + "', " + values[0] +", " + values[1] + ")";}
+        else {
+            sqlLine = "INSERT INTO CIGARETTE VALUES ('" + timeStamp + "')";}
+        }
+
 
     public void insert() {
         //InsertData dataLine = new InsertData();

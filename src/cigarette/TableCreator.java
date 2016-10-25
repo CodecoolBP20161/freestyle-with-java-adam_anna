@@ -26,8 +26,7 @@ public class TableCreator {
                     " CARVING        INT)";
             stmt.executeUpdate(diarySql);
             String cigaretteSql = "CREATE TABLE IF NOT EXISTS CIGARETTE " +
-                    "(ID INT PRIMARY KEY     NOT NULL," +
-                    " TIMESTAMP      TIMESTAMP    NOT NULL)";
+                    "(TIMESTAMP      TIMESTAMP    NOT NULL)";
             stmt.executeUpdate(cigaretteSql);
             stmt.close();
             c.close();

@@ -22,6 +22,8 @@ import java.text.ParseException;
 
 import javafx.scene.Node;
 
+import javax.xml.transform.Result;
+
 /**
  * Created by annakertesz on 10/24/16.
  */
@@ -64,10 +66,23 @@ public class Main extends Application{
 
             Button buttonChart = new Button("Make your data alive");
             buttonChart.setPrefSize(450, 40);
-//            buttonFeeling.setOnAction(event -> {ChartCreator chartcreator = new ChartCreator();});
+            buttonChart.setOnAction(event -> {
+                try {
+                    this.addHBox2();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            });
 
             Button buttonSmoke= new Button("I smoked");
             buttonSmoke.setPrefSize(80, 40);
+            buttonSmoke.setOnAction(event -> {
+                double[] list = {};
+                InsertData dataline = new InsertData(list);
+                dataline.insert();
+            });
 
             hbox.getChildren().addAll(buttonFeeling, buttonSmoke, buttonChart);
 
@@ -76,46 +91,37 @@ public class Main extends Application{
     }
 
     private HBox addHBox2() throws SQLException, ParseException {
-        Connection c = null;
-        Statement stmt = null;
-        ObservableList data = FXCollections.observableArrayList();
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/annakertesz", "postgres", "bmpa88");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Opened database successfully");
         HBox hbox = new HBox();
-        hbox.setStyle("-fx-background-color: #fff2f0;");
 
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         final LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
 
-        PieChart pieChart = new PieChart();
 
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("Portfolio 1");
+        XYChart.Series mood = new XYChart.Series();
+        mood.setName("Mood");
 
 
-        String SQL = "SELECT * FROM DIARY";
-        ResultSet rs = c.createStatement().executeQuery(SQL);
-        while(rs.next()) {
-            Long epoch = new java.text.SimpleDateFormat("yyyy-mm-dd HH:mm:ss").parse(rs.getString(1)).getTime() / 1000;
-            series1.getData().add(new XYChart.Data(epoch, rs.getDouble(2)));
+        XYChart.Series carving = new XYChart.Series();
+        mood.setName("Carving");
+
+
+        ChartPopulator chartPopulator = new ChartPopulator();
+        ResultSet firstSet = chartPopulator.firstSet();
+        ResultSet fullSet = chartPopulator.fullSet();
+
+
+        while(firstSet.next()) {
+            Long firstDay = new java.text.SimpleDateFormat("yyyy-mm-dd HH:mm:ss").parse(firstSet.getString(1)).getTime() / 1000;
+            while(fullSet.next()) {
+                Long epoch = new java.text.SimpleDateFormat("yyyy-mm-dd HH:mm:ss").parse(fullSet.getString(1)).getTime() / 1000 - firstDay;
+                mood.getData().add(new XYChart.Data(epoch, fullSet.getDouble(2)));
+                carving.getData().add(new XYChart.Data(epoch, fullSet.getDouble(3)));
+            }
         }
-//        series1.getData().add(new XYChart.Data("11:52:19", 23));
-//        series1.getData().add(new XYChart.Data("12:42:19", 1));
-//        series1.getData().add(new XYChart.Data("21:32:19", 50));
-        lineChart.setPrefSize(980,500);
-        lineChart.getData().addAll(series1);
 
+        lineChart.getData().addAll(mood, carving);
+        lineChart.setPrefSize(980,500);
         hbox.getChildren().addAll(lineChart);
 
 
