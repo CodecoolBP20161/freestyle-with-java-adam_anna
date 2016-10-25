@@ -18,6 +18,7 @@ import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.text.ParseException;
 
 import javafx.scene.Node;
 
@@ -74,7 +75,7 @@ public class Main extends Application{
 
     }
 
-    private HBox addHBox2() throws SQLException {
+    private HBox addHBox2() throws SQLException, ParseException {
         Connection c = null;
         Statement stmt = null;
         ObservableList data = FXCollections.observableArrayList();
@@ -93,9 +94,9 @@ public class Main extends Application{
         HBox hbox = new HBox();
         hbox.setStyle("-fx-background-color: #fff2f0;");
 
-        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        final LineChart<String, Number> lineChart = new LineChart<String, Number>(xAxis, yAxis);
+        final LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
 
         PieChart pieChart = new PieChart();
 
@@ -106,8 +107,8 @@ public class Main extends Application{
         String SQL = "SELECT * FROM DIARY";
         ResultSet rs = c.createStatement().executeQuery(SQL);
         while(rs.next()) {
-
-            series1.getData().add(new XYChart.Data(rs.getString(1), rs.getDouble(2)));
+            Long epoch = new java.text.SimpleDateFormat("yyyy-mm-dd HH:mm:ss").parse(rs.getString(1)).getTime() / 1000;
+            series1.getData().add(new XYChart.Data(epoch, rs.getDouble(2)));
         }
 //        series1.getData().add(new XYChart.Data("11:52:19", 23));
 //        series1.getData().add(new XYChart.Data("12:42:19", 1));
