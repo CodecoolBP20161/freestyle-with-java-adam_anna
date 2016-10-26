@@ -55,4 +55,11 @@ public class ChartPopulator {
         return firstRs;
     }
 
+    //
+    public ResultSet cigarSet() throws SQLException {
+        String cSQL = "SELECT * FROM CIGARETTE";
+        ResultSet result = c.createStatement().executeQuery(cSQL);
+        return result;
+    }
 }
+
