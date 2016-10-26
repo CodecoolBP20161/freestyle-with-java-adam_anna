@@ -16,17 +16,19 @@ public class InsertData {
     String timeStamp = sdf.format(dt);
 
     public InsertData(double[] values) {
+
         if (values.length == 2) {
-        sqlLine = "INSERT INTO DIARY VALUES (' " + timeStamp + "', " + values[0] +", " + values[1] + ")";}
-        else {
-            sqlLine = "INSERT INTO CIGARETTE VALUES ('" + timeStamp + "')";}
+            sqlLine = "INSERT INTO DIARY VALUES (' " + timeStamp + "', " + values[0] + ", " + values[1] + ")";
+        } else {
+            sqlLine = "INSERT INTO CIGARETTE VALUES ('" + timeStamp + "')";
         }
+    }
 
 
     public void insert() {
-        //InsertData dataLine = new InsertData();
         Connection c = null;
         Statement stmt = null;
+
         try {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
@@ -43,7 +45,7 @@ public class InsertData {
             c.commit();
             c.close();
         } catch (Exception e) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
         System.out.println("Records created successfully");

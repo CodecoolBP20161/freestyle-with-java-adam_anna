@@ -1,16 +1,41 @@
-.default-color0.chart-series-line { -fx-stroke: transparent; }
-.default-color1.chart-series-line { -fx-stroke: red; }
-
-.default-color0.chart-line-symbol {
-    -fx-background-color: white, green;
-}
-.default-color1.chart-line-symbol {
-    -fx-background-color: transparent, transparent;
+.chart-series-line {
+    -fx-stroke-width: 2px;
+    -fx-effect: null;
 }
 
-.default-color0.chart-legend-item-symbol{
-    -fx-background-color: green;
+.root {
+    -fx-font-family: "Helvetica";
 }
-.default-color1.chart-legend-item-symbol{
-    -fx-background-color: red;
+
+.default-color0.chart-series-line { -fx-stroke: rgba(233, 150, 122, 0); }
+.default-color1.chart-series-line { -fx-stroke: #2D3E50; }
+.default-color2.chart-series-line { -fx-stroke: #1BBC9B ; }
+
+.default-color0.chart-line-symbol { -fx-background-color: #E64C66, #E64C66; }
+.default-color1.chart-line-symbol { -fx-background-color: #2D3E50 , white; }
+.default-color2.chart-line-symbol { -fx-background-color: #1BBC9B, white; }
+
+.button {
+    -fx-background-color: #58443A;
+    -fx-text-fill: #BDB09F;
+    -fx-font-size: 16px;
+    -fx-border-radius: 20px;
+}
+
+.button:hover {
+    -fx-background-color: #37281f;
+}
+
+.button-smoke {
+    -fx-background-color: whitesmoke;
+    -fx-text-fill: #F29388;
+    -fx-font-size: 16px;
+    -fx-border-radius: 20px;
+    -fx-font-weight: 700;
+}
+
+.button-smoke:hover {
+    -fx-background-color: whitesmoke;
+    -fx-text-fill: #C04B41;
+    -fx-font-size: 20px;
 }
